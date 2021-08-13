@@ -22,8 +22,10 @@ class CloudfrontViewerTLSPolicy(BaseResourceCheck):
             if 'DistributionConfig' in conf['Properties'].keys():
                 if 'ViewerCertificate' in conf['Properties']['DistributionConfig'].keys():
                     protocol = str(conf['Properties']['DistributionConfig']['ViewerCertificate']['minimumProtocolVersion'])
-                    if protocol.startswith('TLSv1.2_'):
-                    #if conf['Properties']['DistributionConfig']['ViewerCertificate']['minimumProtocolVersion'] == 'TLSv1.2_2021':
+                    if protocol == 'TLSv1.2_2021' or protocol == 'TLSv1.2_2019':
+                    # You can customize your policy:
+                    #   if protocol.startswith('TLSv1.2_'):
+                    #   if conf['Properties']['DistributionConfig']['ViewerCertificate']['minimumProtocolVersion'] == 'TLSv1.2_2021':
                         return CheckResult.PASSED
         return CheckResult.FAILED
 
