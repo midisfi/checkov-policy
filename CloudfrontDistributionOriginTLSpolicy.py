@@ -3,7 +3,7 @@ from checkov.cloudformation.checks.resource.base_resource_check import BaseResou
 
 class CloudfrontOriginTLSProtocol(BaseResourceCheck):
     def __init__(self):
-        name = "Ensure cloudfront distribution origin is accessed via TLS only"
+        name = "Ensure cloudfront distribution origin is accessed via TLS v1.2 or above"
         id = "CUSTOM_CF_ORIGIN_TLS_1.2"
         supported_resources = ['AWS::CloudFront::Distribution']
         categories = [CheckCategories.ENCRYPTION]
