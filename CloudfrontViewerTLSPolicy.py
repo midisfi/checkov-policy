@@ -4,7 +4,7 @@ from checkov.cloudformation.checks.resource.base_resource_check import BaseResou
 class CloudfrontViewerTLSPolicy(BaseResourceCheck):
     def __init__(self):
         name = "Ensure cloudfront distribution ViewerCertificate minimumProtocolVersion is TLS v1.2 or above"
-        id = "CUSTOM_CF_TLS_1.2"
+        id = "CUSTOM_CF_VIEWER_TLS_1.2"
         supported_resources = ['AWS::CloudFront::Distribution']
         categories = [CheckCategories.ENCRYPTION]
         super().__init__(name=name, id=id, categories=categories, supported_resources=supported_resources)
