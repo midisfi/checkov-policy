@@ -3,7 +3,7 @@ from checkov.cloudformation.checks.resource.base_resource_check import BaseResou
 
 class CloudfrontOriginTLSProtocol(BaseResourceCheck):
     def __init__(self):
-        name = "Ensure cloudfront distribution origin is accessed via TLS v1.2 or above"
+        name = "Ensure cloudfront distribution custom origin originSslProtocols is TLS v1.2"
         id = "CUSTOM_CF_ORIGIN_TLS_1.2"
         supported_resources = ['AWS::CloudFront::Distribution']
         categories = [CheckCategories.ENCRYPTION]
@@ -11,7 +11,7 @@ class CloudfrontOriginTLSProtocol(BaseResourceCheck):
 
     def scan_resource_conf(self, conf):
         """
-           Ensures originProtocolPolicy for custom origins is TLS v1.2:
+            Ensures originProtocolPolicy for custom origins is TLS v1.2:
                 https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-customoriginconfig.html
                 https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginSSLProtocols
                 https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_OriginSslProtocols.html
@@ -21,10 +21,12 @@ class CloudfrontOriginTLSProtocol(BaseResourceCheck):
 
         if 'Properties' in conf.keys():
             if 'DistributionConfig' in conf['Properties'].keys():
-                if 'origins' in conf['Properties']['DistributionConfig'].keys():
-                    for origin in range(len(conf['Properties']['DistributionConfig']['origins'])):
-                        if 'originSslProtocols' in conf['Properties']['DistributionConfig']['origins'][origin]['customOriginConfig']['originSslProtocols'].keys() == 'TLSv1.2':
-                               return CheckResult.PASSED
+                if 'Origins' in conf['Properties']['DistributionConfig'].keys():
+                    for origin in range(len(conf['Properties']['DistributionConfig']['Origins'])):
+                        for item in range(len(conf['Properties']['DistributionConfig']['Origins'][origin]['customOriginConfig']['originSslProtocols']['items'])):
+                            protocol = conf['Properties']['DistributionConfig']['Origins'][origin]['customOriginConfig']['originSslProtocols']['items']
+                            if protocol and all(elem == 'TLSv1.2' for elem in protocol):
+                                return CheckResult.PASSED
         return CheckResult.FAILED
 
 check = CloudfrontOriginTLSProtocol()
