@@ -12,13 +12,9 @@ class CloudfrontOriginTLSProtocol(BaseResourceCheck):
     def scan_resource_conf(self, conf):
         """
            Ensures originProtocolPolicy for custom origins is TLS v1.2:
-			
-				      https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-customoriginconfig.html
-				
-				      https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginSSLProtocols
-				
-				      https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_OriginSslProtocols.html
-                
+                https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-customoriginconfig.html
+                https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginSSLProtocols
+                https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_OriginSslProtocols.html
         :param conf: cloudfront configuration
         :return: <CheckResult>
         """
