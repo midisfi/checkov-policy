@@ -19,13 +19,10 @@ class APIGatewayV2DomainNameTLSProtocol(BaseResourceCheck):
         """
 
         if 'Properties' in conf.keys():
-            if 'DistributionConfig' in conf['Properties'].keys():
-                if 'Origins' in conf['Properties']['DistributionConfig'].keys():
-                    for origin in range(len(conf['Properties']['DistributionConfig']['Origins'])):
-                        for item in range(len(conf['Properties']['DistributionConfig']['Origins'][origin]['customOriginConfig']['originSslProtocols']['items'])):
-                            protocol = conf['Properties']['DistributionConfig']['Origins'][origin]['customOriginConfig']['originSslProtocols']['items']
-                            if protocol and all(elem == 'TLSv1.2' for elem in protocol):
-                                return CheckResult.PASSED
+            if 'DomainNameConfigurations' in conf['Properties'].keys():
+                if 'SecurityPolicy' in conf['Properties']['DomainNameConfigurations'].keys():
+                    if 'SecurityPolicy' in conf['Properties']['DomainNameConfigurations'] == 'TLS_1_2':
+                        return CheckResult.PASSED
         return CheckResult.FAILED
 
 check = APIGatewayV2DomainNameTLSProtocol()
