@@ -22,6 +22,7 @@ class APIGatewayV2DomainNameTLSProtocol(BaseResourceCheck):
             if 'DomainNameConfigurations' in conf['Properties'].keys():
                 for config in range(len(conf['Properties']['DomainNameConfigurations'])):
                     if 'SecurityPolicy' in conf['Properties']['DomainNameConfigurations']:
+                        print(['Properties']['DomainNameConfigurations']['SecurityPolicy'])
                         if 'SecurityPolicy' in conf['Properties']['DomainNameConfigurations'] != 'TLS_1_2':
                             return CheckResult.FAILED
         # If parameter is not found at all, pass check
